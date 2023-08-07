@@ -1,20 +1,18 @@
 package com.apiBudget.apiBudget.Modeles;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
+import java.util.List;
+
 @Entity
-@Setter
-@Getter
+@Data
 public class Budget {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false)
     private double montantMax;
@@ -24,47 +22,14 @@ public class Budget {
 
     @Column(nullable = false)
     private Date date;
-
-    public Budget(long id, double montantMax, double montantAlert, Date date) {
-        this.id = id;
-        this.montantMax = montantMax;
-        this.montantAlert = montantAlert;
-        this.date = date;
-    }
-
-    public Budget() {
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public double getMontantMax() {
-        return montantMax;
-    }
-
-    public void setMontantMax(double montantMax) {
-        this.montantMax = montantMax;
-    }
-
-    public double getMontantAlert() {
-        return montantAlert;
-    }
-
-    public void setMontantAlert(double montantAlert) {
-        this.montantAlert = montantAlert;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
+    // ================Reception de la cle primaire de la categorie=======
+    @ManyToOne
+    private Categorie categorie;
+    // ================Envoie de la cle primaire dans depense=======
+    @OneToMany(mappedBy = "budget")
+    private List<Depense> depenses;
+    // ================Envoie de la cle primaire dans alerte=======
+    @OneToMany(mappedBy = "budget")
+    private  List<Alerte> alertes;
 
 }

@@ -24,7 +24,7 @@ public class Type {
     private Utilisateur utilisateur;
     //============Envoi de la cle etrangere dans depense========
     @OneToMany (mappedBy = "type",cascade = CascadeType.ALL)
-    private List<Depense> depenses= new ArrayList<>();
+    private List<Depense> depenses;
 
     //
 }

@@ -20,27 +20,24 @@ import static jakarta.persistence.CascadeType.MERGE;
 public class Depense {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "depenseId")
-    private Long depenseId ;
+    private Long id ;
 
     @NonNull
-    @Column(name = "description")
     private String description;
 
     @NonNull
-    @Column(name = "montantDepense")
     private Integer montant ;
 
-    @Column(name = "date")
+    @NonNull
     private LocalDate date = LocalDate.now();
 
 
     @ManyToOne (cascade = {CascadeType.PERSIST, MERGE})
-    @JoinColumn(name = "Id")
     private Type type;
 
+    //=========Reception de la cle primaire du budget=======
+
     @ManyToOne(cascade = {CascadeType.PERSIST, MERGE })
-    @JoinColumn(name = "Id")
     private Budget budget;
 
 }

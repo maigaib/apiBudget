@@ -19,8 +19,8 @@ public class DepenseController {
         return depenseService.addDepense(depense, budgetId);
     }
     @GetMapping("/budget/{budgetId}")
-    public List<Depense> getAllDepensesForSpecificBudget(@PathVariable Long budgetId){
-        return depenseService.getAllDepensesForSpecificBudget(budgetId);
+    public List<Depense> getAllDepensesForSpecificBudget(@PathVariable Long Id){
+        return depenseService.getAllDepensesForSpecificBudget(Id);
     }
 
     @PutMapping("/modifier/{depenseId}")

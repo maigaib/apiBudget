@@ -3,6 +3,8 @@ package com.apiBudget.apiBudget.Controller;
 
 import com.apiBudget.apiBudget.Modeles.Budget;
 import com.apiBudget.apiBudget.Services.BudgetService;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,12 +12,10 @@ import java.util.Optional;
 
 @RequestMapping("budget")
 @RestController
+@AllArgsConstructor
 public class BudgetController {
     private final BudgetService budgetService;
 
-    public BudgetController(BudgetService budgetService) {
-        this.budgetService = budgetService;
-    }
 
     @GetMapping("/{id}")
     public Budget getBudgetById(@PathVariable Long id){
