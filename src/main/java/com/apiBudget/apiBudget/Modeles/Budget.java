@@ -1,35 +1,68 @@
 package com.apiBudget.apiBudget.Modeles;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
-//@NoArgsConstructor
-//@AllArgsConstructor
-//@Table(name = "budget")
-//@Entity
-//@Getter
-//@Setter
+import java.util.Date;
+
 public class Budget {
 
-  //  @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-    //private Long id;
-    //private int montantMax;
-    //private int montantAlerte;
-    //private int date;
+    @Column(nullable = false)
+    private double montantMax;
 
+    @Column(nullable = false)
+    private double montantAlert;
 
-    //@ManyToOne
-    //@JoinColumn(name = "catId",nullable = false)
-    //private Categorie categorie;
+    @Column(nullable = false)
+    private Date date;
 
-    //@OneToMany (mappedBy = "categorie",cascade = CascadeType.ALL)
-    //private List<Depense> depenses= new ArrayList<>();
+    public Budget(long id, double montantMax, double montantAlert, Date date) {
+        this.id = id;
+        this.montantMax = montantMax;
+        this.montantAlert = montantAlert;
+        this.date = date;
+    }
+
+    public Budget() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public double getMontantMax() {
+        return montantMax;
+    }
+
+    public void setMontantMax(double montantMax) {
+        this.montantMax = montantMax;
+    }
+
+    public double getMontantAlert() {
+        return montantAlert;
+    }
+
+    public void setMontantAlert(double montantAlert) {
+        this.montantAlert = montantAlert;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
 }

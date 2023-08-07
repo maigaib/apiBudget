@@ -1,4 +1,4 @@
-package com.apiBudget.apiBudget.Service;
+package com.apiBudget.apiBudget.Services;
 
 import com.apiBudget.apiBudget.Repository.TypeRepository;
 import com.apiBudget.apiBudget.Modeles.Type;
