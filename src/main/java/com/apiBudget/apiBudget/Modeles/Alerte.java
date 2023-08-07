@@ -21,10 +21,6 @@ public class Alerte {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //==================Message d'alerte==========
-    @Column(nullable = false)
-    private String message;
-
     //==================Date alerte==========
     @Column(nullable = false)
     private Date date;
@@ -37,5 +33,16 @@ public class Alerte {
     @ManyToOne
     private Utilisateur utilisateur;
 
+    //===================Adresse de l'expediteur====================
 
+    @Column(nullable = false)
+    private String Expediteur;
+    //===================Adresse du destinateur======================
+
+    @Column(nullable = false)
+    private String destinateur;
+
+    //==================Message d'alerte==========
+    @Column(nullable = false)
+    private String message;
 }
