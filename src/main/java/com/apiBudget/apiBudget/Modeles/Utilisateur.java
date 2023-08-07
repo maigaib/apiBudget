@@ -19,17 +19,18 @@ public class Utilisateur {
     @Column(nullable = false)
     private String password;
 
-   /* @OneToMany(mappedBy = "utilisateur",cascade = CascadeType.ALL)
-    private List<Quiz> quiz;*/
+    @OneToMany(mappedBy = "utilisateur",cascade = CascadeType.ALL)
+    private List<Categorie> categories;
 
     public Utilisateur() {
     }
 
-    public Utilisateur(int id, String name, String email, String password, List<Quiz> quiz) {
+    public Utilisateur(int id, String name, String email, String password, List<Categorie> categories) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
+        this.categories = categories;
     }
 
     public long getId() {
