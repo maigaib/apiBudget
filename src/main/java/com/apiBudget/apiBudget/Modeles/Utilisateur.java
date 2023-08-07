@@ -1,9 +1,18 @@
 package com.apiBudget.apiBudget.Modeles;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
-
+@Entity
+@Table(name = "utilisateur")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Utilisateur {
 
     @Id
@@ -19,47 +28,15 @@ public class Utilisateur {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "utilisateur",cascade = CascadeType.ALL)
+//==========Envoie de la cle primaire dans la table Alerte=========
+    @OneToMany(mappedBy = "utilisateur")
+    private List<Alerte> alertes;
+
+//==========Envoie de la cle primaire dans la table Alerte=========
+    @OneToMany(mappedBy = "utilisateur")
     private List<Categorie> categories;
-
-    public Utilisateur() {
-    }
-
-    public Utilisateur(int id, String name, String email, String password, List<Categorie> categories) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.categories = categories;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
+   /* @OneToMany(mappedBy = "utilisateur",cascade = CascadeType.ALL)
+    private List<Quiz> quiz;*/
 
     public void setEmail(String email) {
         this.email = email;
