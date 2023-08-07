@@ -32,4 +32,5 @@ public class Categorie {
     //=========Reception de la cle primaire de l'utilisateur=======
     @ManyToOne
     private Utilisateur utilisateur;
+
 }
