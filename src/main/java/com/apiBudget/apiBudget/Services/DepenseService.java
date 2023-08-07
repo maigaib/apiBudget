@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class DepenseService {
     @Autowired
@@ -15,18 +17,18 @@ public class DepenseService {
 
     @Autowired
     private BudgetRepository budgetRepository;
-    public List<Depense> getAllDepensesForSpecificBudget(Long budgetId){
-        return depenseRepository.findByBudgetBudgetId(budgetId);
+    public List<Depense> getAllDepensesForSpecificBudget(Long id){
+        return depenseRepository.findDepensesByBudgetId(id);
     }
 
-    public Depense addDepense(Depense depense, Long budgetId) {
-        Budget budget = budgetRepository.findByBudgetBudgetId(budgetId);
-            depense.setBudget(budget);
+    public Depense addDepense(Depense depense, Long id) {
+        Optional<Budget> budget = budgetRepository.findById(id);
+            depense.setBudget(budget.get());
             return depenseRepository.save(depense);
     }
 
-    public Depense updateDepense(Depense depense, Long depenseId) {
-        Depense exDepense = depenseRepository.findById(depense.getDepenseId()).orElse(null);
+    public Depense updateDepense(Depense depense, Long id) {
+        Depense exDepense = depenseRepository.findById(id).orElse(null);
         if (exDepense == null) {
             return null;
         }else {
@@ -36,8 +38,8 @@ public class DepenseService {
         return depenseRepository.save(exDepense);}
     }
 
-    public boolean deleteDepenseById(Long depenseId){
-        depenseRepository.deleteById(depenseId);
+    public boolean deleteDepenseById(Long id){
+        depenseRepository.deleteById(id);
         return true;
     }
 

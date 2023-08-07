@@ -27,9 +27,11 @@ public class Categorie {
 
 //==========Envoie de la cle primaire dans la table Budget=========
 
-   // Doucoure devrait se chargé de la mise en place de cette cle des deux côtés
+   @OneToMany(mappedBy = "categorie")
+   private List<Budget> budgets;
 
     //=========Reception de la cle primaire de l'utilisateur=======
     @ManyToOne
     private Utilisateur utilisateur;
+
 }

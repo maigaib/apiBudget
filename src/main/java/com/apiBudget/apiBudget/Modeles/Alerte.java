@@ -28,6 +28,9 @@ public class Alerte {
     //==================Vue d'alerte par l'utilisateur==========
     @Column(nullable = false)
     private boolean vue;
+    //=========Reception de la cle primaire du budget=======
+    @ManyToOne
+    private Budget budget;
 
     //=========Reception de la cle primaire de l'utilisateur=======
     @ManyToOne
