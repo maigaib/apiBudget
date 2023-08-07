@@ -25,6 +25,17 @@ public class DepenseService {
             return depenseRepository.save(depense);
     }
 
+    public Depense updateDepense(Depense depense, Long depenseId) {
+        Depense exDepense = depenseRepository.findById(depense.getDepenseId()).orElse(null);
+        if (exDepense == null) {
+            return null;
+        }else {
+        exDepense.setMontant(depense.getMontant());
+        exDepense.setDescription(depense.getDescription());
+        exDepense.setDate(depense.getDate());
+        return depenseRepository.save(exDepense);}
+    }
+
     public boolean deleteDepenseById(Long depenseId){
         depenseRepository.deleteById(depenseId);
         return true;

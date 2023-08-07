@@ -31,11 +31,11 @@ public class Depense {
     private LocalDate date = LocalDate.now();
 
 
-    @OneToOne (cascade = {CascadeType.PERSIST, MERGE})
-    @JoinColumn(name = "typeId")
+    @ManyToOne (cascade = {CascadeType.PERSIST, MERGE})
+    @JoinColumn(name = "Id")
     private Type type;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, MERGE })
-    @JoinColumn(name = "budgetId")
+    @ManyToOne(cascade = {CascadeType.PERSIST, MERGE })
+    @JoinColumn(name = "Id")
     private Budget budget;
 }
