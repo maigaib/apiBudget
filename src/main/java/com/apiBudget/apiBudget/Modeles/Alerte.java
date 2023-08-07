@@ -46,4 +46,5 @@ public class Alerte {
     //==================Message d'alerte==========
     @Column(nullable = false)
     private String message;
+
 }
