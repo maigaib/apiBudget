@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface DepenseRepository extends JpaRepository<Depense, Long> {
 
-    List<Depense> findByBudgetBudgetId(Long budgetId);
+    List<Depense> findDepenseByBudgetId(Long budgetId);
     List<Depense> findAll();
 }
 

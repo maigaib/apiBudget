@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class DepenseService {
     @Autowired
@@ -16,12 +18,12 @@ public class DepenseService {
     @Autowired
     private BudgetRepository budgetRepository;
     public List<Depense> getAllDepensesForSpecificBudget(Long budgetId){
-        return depenseRepository.findByBudgetBudgetId(budgetId);
+        return depenseRepository.findDepenseByBudgetId(budgetId);
     }
 
-    public Depense addDepense(Depense depense, Long budgetId) {
-        Budget budget = budgetRepository.findByBudgetBudgetId(budgetId);
-            depense.setBudget(budget);
+    public Depense addDepense(Depense depense, Long id) {
+        Optional<Budget> budget = budgetRepository.findById(id);
+            depense.setBudget(budget.get());
             return depenseRepository.save(depense);
     }
 
