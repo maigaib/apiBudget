@@ -26,5 +26,9 @@ public class Type {
     @OneToMany (mappedBy = "type",cascade = CascadeType.ALL)
     private List<Depense> depenses= new ArrayList<>();
 
+    public Type addType(Type type, Long budgetId) {
+        return type;
+    }
+
     //
 }

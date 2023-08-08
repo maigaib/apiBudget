@@ -41,5 +41,13 @@ import java.util.List;
             typeRepository.deleteById(id);
             return "Type supprimer avec succès !";
         }
+
+        public List<Type> getAllTypeForSpecificBudget(Long budgetId) {
+            return null;
+        }
+
+        public boolean deleteTypeById(Long depenseId) {
+            return false;
+        }
     }
 
