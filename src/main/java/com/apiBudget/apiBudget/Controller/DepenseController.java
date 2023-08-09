@@ -18,6 +18,10 @@ public class DepenseController {
     public Depense addDepense(@RequestBody Depense depense){
         return depenseService.addDepense(depense);
     }
+    @PostMapping("/ajouter")
+    public Depense MaddDepense(@RequestBody Depense depense){
+        return depenseService.addDepense(depense);
+    }
     @GetMapping("/budget/{id}")
     public List<Depense> getAllDepensesForSpecificBudget(@PathVariable Long id){
         return depenseService.getAllDepensesForSpecificBudget(id);
