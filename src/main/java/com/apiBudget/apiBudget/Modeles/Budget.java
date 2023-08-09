@@ -21,6 +21,9 @@ public class Budget {
     private double montantAlert;
 
     @Column(nullable = false)
+    private double budgetRestant = montantMax;
+
+    @Column(nullable = false)
     private Date date;
     // ================Reception de la cle primaire de la categorie=======
     @ManyToOne

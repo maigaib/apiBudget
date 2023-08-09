@@ -14,9 +14,9 @@ public class DepenseController {
     @Autowired
     DepenseService depenseService;
 
-    @PostMapping("/{budgetId}/ajouter")
-    public Depense addDepense(@RequestBody Depense depense, @PathVariable Long budgetId ){
-        return depenseService.addDepense(depense, budgetId);
+    @PostMapping("/ajouter")
+    public Depense addDepense(@RequestBody Depense depense){
+        return depenseService.addDepense(depense);
     }
     @GetMapping("/budget/{budgetId}")
     public List<Depense> getAllDepensesForSpecificBudget(@PathVariable Long Id){

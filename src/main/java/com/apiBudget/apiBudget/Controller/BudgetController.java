@@ -31,7 +31,7 @@ public class BudgetController {
     public  Boolean test(@PathVariable Long id){
         return budgetService.deleteBudgetById(id);
     }
-    @GetMapping("/lire")
+    @GetMapping("/liste")
     public Optional<List> getAllBudget(){
         Optional<List> budget = Optional.ofNullable(budgetService.getAllBudget());
         return Optional.ofNullable(budget.orElse(null));
