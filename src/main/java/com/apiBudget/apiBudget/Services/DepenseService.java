@@ -22,8 +22,11 @@ public class DepenseService {
     }
 
     public Depense addDepense(Depense depense, Long id) {
+        //=========Obtenir de budget a traver son  id===============
         Optional<Budget> budget = budgetRepository.findById(id);
+        //========verifier si le budget est dans le basse=======
             depense.setBudget(budget.get());
+
             return depenseRepository.save(depense);
     }
 
