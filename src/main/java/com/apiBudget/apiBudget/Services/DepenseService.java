@@ -31,8 +31,9 @@ public class DepenseService {
 
     public Depense addDepense(Depense depense) {
        Budget budget = budgetRepository.findBudgetById(depense.getBudget().getId());
+        depense.setBudget(budget);
        Type type = typeRepository.findTypeById(depense.getType().getId());
-       depense.setBudget(budget);
+         depense.setType(type);
 
        //pour verifier que le budget existe
        if(budget==null)
@@ -48,7 +49,7 @@ public class DepenseService {
 
         // pour l'alerte
         if (budgetMontantRestant <= budget.getMontantAlert())
-            alerteService.sendEmail(type.getUtilisateur().getEmail(),"Doucoure", "vous avez atteint votre montant d'alerte  il vous reste "+budgetMontantRestant+"de budget");
+            alerteService.sendEmail(type.getUtilisateur().getEmail(),"Doucoure", "vous avez atteint votre montant d'alerte  il vous reste "+budgetMontantRestant+" F CFA de budget");
 
             depense.setDate(LocalDate.now());
         return depenseRepository.save(depense);
