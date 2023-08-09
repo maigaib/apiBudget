@@ -10,6 +10,8 @@ public class ApiBudgetApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ApiBudgetApplication.class, args);
 		System.out.println("Application lancée avec succès!!!");
+		System.out.println();
+
 	}
 
 }

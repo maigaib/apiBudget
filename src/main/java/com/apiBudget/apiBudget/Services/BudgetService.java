@@ -40,7 +40,8 @@ public class BudgetService {
                 .map(p ->{
                     p.setMontantMax(budget.getMontantMax());
                     p.setMontantAlert(budget.getMontantAlert());
-                    p.setDate(budget.getDate());
+                    p.setDateDebut(budget.getDateDebut());
+                    p.setDateFin(budget.getDateFin());
                     return budgetRepository.save(p);
                 }).orElseThrow(() -> new RuntimeException("Budget non trouvé"));
         return budget1;

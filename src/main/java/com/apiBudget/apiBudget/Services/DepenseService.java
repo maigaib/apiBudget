@@ -62,7 +62,7 @@ public class DepenseService {
 
         // pour l'alerte
         if (budgetMontantRestant <= budget.getMontantAlert())
-            alerteService.sendEmail(type.getUtilisateur().getEmail(),"Doucoure", "vous avez atteint votre montant d'alerte  il vous reste "+budgetMontantRestant+"de budget");
+            alerteService.sendEmail(type.getUtilisateur().getEmail(),"Doucoure", "vous avez atteint votre montant d'alerte  il vous reste "+budgetMontantRestant+" F CFA de budget");
 
             depense.setDate(LocalDate.now());
 
