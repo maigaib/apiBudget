@@ -16,10 +16,10 @@ public class AlerteService {
     @Autowired
     private JavaMailSender mailSender;
 
-    public void sendEmail(String destinateur, String expediteur, String message) {
+    public void sendEmail(String destinateur, String subject, String message) {
         SimpleMailMessage alt = new SimpleMailMessage();
         alt.setTo(destinateur);
-        alt.setSubject(expediteur);
+        alt.setSubject(subject);
         alt.setText(message);
 
         mailSender.send(alt);

@@ -1,5 +1,7 @@
 package com.apiBudget.apiBudget.Modeles;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 
 import jakarta.persistence.*;
@@ -28,16 +30,17 @@ public class Depense {
     @NonNull
     private Integer montant ;
 
-    @NonNull
-    private LocalDate date = LocalDate.now();
+    private LocalDate date;
 
 
-    @ManyToOne (cascade = {CascadeType.PERSIST, MERGE})
+    @ManyToOne
+    @JsonIgnoreProperties(value = {"depenses"})
     private Type type;
 
     //=========Reception de la cle primaire du budget=======
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, MERGE })
+    @ManyToOne
+    @JsonIgnoreProperties(value = {"depenses","alertes"})
     private Budget budget;
 
 }

@@ -30,8 +30,7 @@ import java.util.List;
 
 
        public Type modifier(Long id,Type type){
-            return typeRepository.findById(id)
-                    .map(m-> {
+            return typeRepository.findById(id).map(m-> {
                         m.setNom(type.getNom());
                         return typeRepository.save(m);
                     }).orElseThrow();

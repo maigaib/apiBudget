@@ -1,6 +1,7 @@
 package com.apiBudget.apiBudget.Modeles;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,6 +33,7 @@ public class Categorie {
 
     //=========Reception de la cle primaire de l'utilisateur=======
     @ManyToOne
+    @JsonIgnoreProperties(value = {"types","alertes","categories"})
     private Utilisateur utilisateur;
 
 }
