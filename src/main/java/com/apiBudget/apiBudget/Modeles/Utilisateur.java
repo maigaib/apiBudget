@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Utilisateur {
 
+    public static String getEmail;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

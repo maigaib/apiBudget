@@ -14,23 +14,23 @@ public class DepenseController {
     @Autowired
     DepenseService depenseService;
 
-    @PostMapping("/{budgetId}/ajouter")
-    public Depense addDepense(@RequestBody Depense depense, @PathVariable Long budgetId ){
-        return depenseService.addDepense(depense, budgetId);
+    @PostMapping("/{id}/ajouter/{typeId}")
+    public Depense addDepense(@RequestBody Depense depense){
+        return depenseService.addDepense(depense);
     }
-    @GetMapping("/budget/{budgetId}")
-    public List<Depense> getAllDepensesForSpecificBudget(@PathVariable Long Id){
-        return depenseService.getAllDepensesForSpecificBudget(Id);
+    @GetMapping("/budget/{id}")
+    public List<Depense> getAllDepensesForSpecificBudget(@PathVariable Long id){
+        return depenseService.getAllDepensesForSpecificBudget(id);
     }
 
-    @PutMapping("/modifier/{depenseId}")
-    public Depense updateDepense(@RequestBody Depense depense, @PathVariable Long depenseId){
-        return depenseService.updateDepense(depense, depenseId);
+    @PutMapping("/modifier/{id}")
+    public Depense updateDepense(@RequestBody Depense depense, @PathVariable Long id){
+        return depenseService.updateDepense(depense, id);
     }
-    //=====================================S
-    @DeleteMapping("/delete/{depenseId}")
-    public boolean deleteDepenseById(@PathVariable Long depenseId){
-        return depenseService.deleteDepenseById(depenseId);
+    //==========================S
+    @DeleteMapping("/delete/{id}")
+    public boolean deleteDepenseById(@PathVariable Long id){
+        return depenseService.deleteDepenseById(id);
     }
 
 

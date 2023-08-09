@@ -16,6 +16,9 @@ public class CategorieService {
     //================Methode créer===============
 
     public Categorie creer(Categorie categorie){
+        Categorie cat = categorieRepository.findByLibelle(categorie.getLibelle());
+        if(cat!=null)
+            throw new RuntimeException("Cette categorie existe déjà.");
         return categorieRepository.save(categorie);
     }
     //==============lister les categorie  creer============
@@ -26,8 +29,7 @@ public class CategorieService {
 
     //===============Modifier categorie============
     public Categorie modifier(Long id, Categorie categorie){
-        return categorieRepository.findById(id)
-                .map(m-> {
+        return categorieRepository.findById(id).map(m-> {
                     m.setLibelle(categorie.getLibelle());
                     return categorieRepository.save(m);
                 }).orElseThrow(()-> new RuntimeException("Categorie non retrouvée!!!"));

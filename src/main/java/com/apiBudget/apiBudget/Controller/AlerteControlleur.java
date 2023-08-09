@@ -20,7 +20,6 @@ public class AlerteControlleur {
     public void sendAlerteEmail(@RequestBody Alerte alerte){
         alerteService.sendEmail(
                 alerte.getDestinateur(),
-                alerte.getExpediteur(),
                 alerte.getMessage()
         );
     }
