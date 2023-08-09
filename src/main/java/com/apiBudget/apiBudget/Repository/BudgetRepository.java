@@ -5,6 +5,7 @@ import com.apiBudget.apiBudget.Modeles.Categorie;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BudgetRepository extends JpaRepository<Budget,Long> {
+    Budget findBudgetById(Long id);
 
     Budget findBudgetById(long id);
 

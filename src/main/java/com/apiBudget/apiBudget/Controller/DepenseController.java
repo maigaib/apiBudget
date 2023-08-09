@@ -14,7 +14,11 @@ public class DepenseController {
     @Autowired
     DepenseService depenseService;
 
+<<<<<<< HEAD
     @PostMapping("/{id}/ajouter/{typeId}")
+=======
+    @PostMapping("/ajouter")
+>>>>>>> 17debd9622f01d64d23aef1af0d583b850bc0846
     public Depense addDepense(@RequestBody Depense depense){
         return depenseService.addDepense(depense);
     }
