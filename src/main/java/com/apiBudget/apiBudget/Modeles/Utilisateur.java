@@ -1,11 +1,13 @@
 package com.apiBudget.apiBudget.Modeles;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.List;
 @Entity
 @Table(name = "utilisateur")
@@ -13,7 +15,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Utilisateur {
+public class Utilisateur implements Serializable {
 
     public static String getEmail;
     @Id

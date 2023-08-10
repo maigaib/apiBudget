@@ -28,6 +28,7 @@ public class UtilisateurService {
     public Utilisateur findUtilisateurById(Long id){
         return utilisateurRepository.findById(id).get();
     }
+
     public Utilisateur editUtilisateur(Long id, Utilisateur utilisateur){
        Utilisateur user = utilisateurRepository.findById(id)
                 .map(p ->{
