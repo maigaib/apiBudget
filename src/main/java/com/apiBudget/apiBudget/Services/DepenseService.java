@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,12 +37,17 @@ public class DepenseService {
          depense.setType(type);
 
        //pour verifier que le budget existe
-       if(budget==null)
+       if((budget==null) || (depense.getBudget().getDateFin().before(new Date())))
             throw  new RuntimeException("Ce budget n'existe pas");
 
         // pour voir si la depense est superieur à notre budget
         if (depense.getMontant() > depense.getBudget().getMontantMax())
             throw new RuntimeException("Le montant de la depense est superieur a votre budget");
+
+        //validation de la date
+        depense.setDate(LocalDate.now());
+        if(depense.getDate().isAfter(LocalDate.now()))
+            throw new RuntimeException("La date entrée est incorrect");
 
         //pour deduire notre depense de notre budget
         Double budgetMontantRestant = budget.getBudgetRestant()-depense.getMontant();
@@ -49,9 +55,8 @@ public class DepenseService {
 
         // pour l'alerte
         if (budgetMontantRestant <= budget.getMontantAlert())
-            alerteService.sendEmail(type.getUtilisateur().getEmail(),"Doucoure", "vous avez atteint votre montant d'alerte  il vous reste "+budgetMontantRestant+" F CFA de budget");
+            alerteService.sendEmail(type.getUtilisateur().getEmail(),"Alerte !!!", "vous avez atteint votre montant d'alerte  il vous reste "+budgetMontantRestant+" F CFA de budget");
 
-            depense.setDate(LocalDate.now());
         return depenseRepository.save(depense);
 
     }
@@ -73,4 +78,11 @@ public class DepenseService {
     }
 
 
+    public List<Depense> getAllDepenses() {
+        return depenseRepository.findAll();
+    }
+
+    public Depense getSpecificDepense(Long id) {
+        return depenseRepository.findDepenseById(id);
+    }
 }

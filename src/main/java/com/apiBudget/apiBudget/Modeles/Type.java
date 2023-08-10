@@ -1,5 +1,6 @@
 package com.apiBudget.apiBudget.Modeles;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
@@ -26,6 +27,7 @@ public class Type {
     private Utilisateur utilisateur;
     //============Envoi de la cle etrangere dans depense========
     @OneToMany (mappedBy = "type",cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Depense> depenses;
 
     //

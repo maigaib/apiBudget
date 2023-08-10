@@ -14,5 +14,7 @@ public interface DepenseRepository extends JpaRepository<Depense, Long> {
     List<Depense> findByBudgetId(Long id);
     List<Depense> findDepensesByBudgetId(Long id);
     List<Depense> findAll();
+
+    Depense findDepenseById(Long id);
 }
 

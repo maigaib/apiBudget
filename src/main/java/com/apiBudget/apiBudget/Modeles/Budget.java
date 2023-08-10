@@ -1,5 +1,6 @@
 package com.apiBudget.apiBudget.Modeles;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,20 +22,25 @@ public class Budget {
     @Column(nullable = false)
     private double montantAlert;
 
-    @Column(nullable = false)
+   // @Column(nullable = false)
     private double budgetRestant = montantMax;
 
     @Column(nullable = false)
-    private Date date;
+    private Date dateDebut;
+
+    @Column(nullable = false)
+    private Date dateFin;
     // ================Reception de la cle primaire de la categorie=======
     @ManyToOne
     @JsonIgnoreProperties(value = {"budgets","alertes"})
     private Categorie categorie;
     // ================Envoie de la cle primaire dans depense=======
     @OneToMany(mappedBy = "budget")
+    @JsonIgnore
     private List<Depense> depenses;
     // ================Envoie de la cle primaire dans alerte=======
     @OneToMany(mappedBy = "budget")
+    @JsonIgnore
     private  List<Alerte> alertes;
 
 }
