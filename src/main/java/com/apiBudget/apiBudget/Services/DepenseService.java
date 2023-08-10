@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +36,7 @@ public class DepenseService {
 
     public Depense addDepense(Depense depense) {
 
+
         //=================Obtenir le budget a travers son id ================
 
         Budget budget = budgetRepository.findBudgetById(depense.getBudget().getId());
@@ -45,16 +47,25 @@ public class DepenseService {
             throw new RuntimeException("Le budget correspondant n'existe pas.");
 
        Budget budget1 = budgetRepository.findBudgetById(depense.getBudget().getId());
+
+       //Budget budget = budgetRepository.findBudgetById(depense.getBudget().getId());
+        depense.setBudget(budget);
+
        Type type = typeRepository.findTypeById(depense.getType().getId());
-       depense.setBudget(budget);
+         depense.setType(type);
 
        //pour verifier que le budget existe
-       if(budget==null)
+       if((budget==null) || (depense.getBudget().getDateFin().isBefore(LocalDate.now())))
             throw  new RuntimeException("Ce budget n'existe pas");
 
         // pour voir si la depense est superieur à notre budget
         if (depense.getMontant() > depense.getBudget().getMontantMax())
             throw new RuntimeException("Le montant de la depense est superieur a votre budget");
+
+        //validation de la date
+        depense.setDate(LocalDate.now());
+        if(depense.getDate().isAfter(LocalDate.now()))
+            throw new RuntimeException("La date entrée est incorrect");
 
         //pour deduire notre depense de notre budget
         Double budgetMontantRestant = budget.getBudgetRestant()-depense.getMontant();
@@ -62,9 +73,14 @@ public class DepenseService {
 
         // pour l'alerte
         if (budgetMontantRestant <= budget.getMontantAlert())
+
             alerteService.sendEmail(type.getUtilisateur().getEmail(),"Doucoure", "vous avez atteint votre montant d'alerte  il vous reste "+budgetMontantRestant+" F CFA de budget");
 
             depense.setDate(LocalDate.now());
+
+
+            alerteService.sendEmail(type.getUtilisateur().getEmail(),"Alerte !!!", "vous avez atteint votre montant d'alerte  il vous reste "+budgetMontantRestant+" F CFA de budget");
+
 
         return depenseRepository.save(depense);
 
@@ -87,4 +103,11 @@ public class DepenseService {
     }
 
 
+    public List<Depense> getAllDepenses() {
+        return depenseRepository.findAll();
+    }
+
+    public Depense getSpecificDepense(Long id) {
+        return depenseRepository.findDepenseById(id);
+    }
 }

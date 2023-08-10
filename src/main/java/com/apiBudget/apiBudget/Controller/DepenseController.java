@@ -20,12 +20,26 @@ public class DepenseController {
     public Depense addDepense(@RequestBody Depense depense){
         return depenseService.addDepense(depense);
     }
+
  /*   @PostMapping("/ajouter")
     public Depense MaddDepense(@RequestBody Depense depense){
         return depenseService.addDepense(depense);
     }
   */
-    @GetMapping("/budget/{id}")
+
+    //===================================================
+    @GetMapping("/liste")
+    public List<Depense> getAllDepenses(){
+        return depenseService.getAllDepenses();
+    }
+    //==================================================
+    @GetMapping("/{id}")
+    public Depense getSpecificDepense(@PathVariable Long id){
+        return depenseService.getSpecificDepense(id);
+    }
+    //==================================================
+    @GetMapping("budget/{id}")
+
     public List<Depense> getAllDepensesForSpecificBudget(@PathVariable Long id){
         return depenseService.getAllDepensesForSpecificBudget(id);
     }
@@ -34,11 +48,16 @@ public class DepenseController {
     public Depense updateDepense(@RequestBody Depense depense, @PathVariable Long id){
         return depenseService.updateDepense(depense, id);
     }
+
     //==========================Suppression de depense ==========================
+
+    //=====================================S
+
     @DeleteMapping("/delete/{id}")
     public boolean deleteDepenseById(@PathVariable Long id){
         return depenseService.deleteDepenseById(id);
     }
+
 
 
 

@@ -1,6 +1,7 @@
 package com.apiBudget.apiBudget.Modeles;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,7 @@ public class Categorie {
 //==========Envoie de la cle primaire dans la table Budget=========
 
    @OneToMany(mappedBy = "categorie")
+   @JsonIgnore
    private List<Budget> budgets;
 
     //=========Reception de la cle primaire de l'utilisateur=======
