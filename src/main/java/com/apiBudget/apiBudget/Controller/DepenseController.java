@@ -15,6 +15,7 @@ public class DepenseController {
     DepenseService depenseService;
 
     @PostMapping("/ajouter")
+
     public Depense addDepense(@RequestBody Depense depense){
         return depenseService.addDepense(depense);
     }
@@ -28,8 +29,11 @@ public class DepenseController {
     public Depense getSpecificDepense(@PathVariable Long id){
         return depenseService.getSpecificDepense(id);
     }
-    //==================================================
-    @GetMapping("budget/{id}")
+ /*   @PostMapping("/ajouter")
+    public Depense MaddDepense(@RequestBody Depense depense){
+        return depenseService.addDepense(depense);
+    }
+  */
     public List<Depense> getAllDepensesForSpecificBudget(@PathVariable Long id){
         return depenseService.getAllDepensesForSpecificBudget(id);
     }
@@ -38,7 +42,7 @@ public class DepenseController {
     public Depense updateDepense(@RequestBody Depense depense, @PathVariable Long id){
         return depenseService.updateDepense(depense, id);
     }
-    //=====================================S
+
     @DeleteMapping("/delete/{id}")
     public boolean deleteDepenseById(@PathVariable Long id){
         return depenseService.deleteDepenseById(id);

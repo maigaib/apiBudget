@@ -2,9 +2,11 @@ package com.apiBudget.apiBudget.Modeles;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -21,15 +23,19 @@ public class Budget {
 
     @Column(nullable = false)
     private double montantAlert;
+    //=====================declaration de la date de debut===============
 
-   // @Column(nullable = false)
+    @Column(nullable = false)
+    private LocalDate dateDebut= LocalDate.now();
+
+    //=====================declaration de la date de fin===============
+
+    private  LocalDate dateFin = dateDebut.plusDays(30);
+
+
+    @Column(nullable = false)
     private double budgetRestant = montantMax;
 
-    @Column(nullable = false)
-    private Date dateDebut;
-
-    @Column(nullable = false)
-    private Date dateFin;
     // ================Reception de la cle primaire de la categorie=======
     @ManyToOne
     @JsonIgnoreProperties(value = {"budgets","alertes"})

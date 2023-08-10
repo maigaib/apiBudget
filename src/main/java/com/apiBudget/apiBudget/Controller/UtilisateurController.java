@@ -3,6 +3,7 @@ package com.apiBudget.apiBudget.Controller;
 import com.apiBudget.apiBudget.ApiResponse;
 import com.apiBudget.apiBudget.Modeles.Utilisateur;
 import com.apiBudget.apiBudget.Services.UtilisateurService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,6 +40,7 @@ public class UtilisateurController {
         return Optional.ofNullable(user.orElse(null));
     }
     @PostMapping("/create")
+    @Operation(summary = "Permet de créer")
     public Utilisateur create(@RequestBody Utilisateur utilisateur){
         return userService.createUtilisateur(utilisateur);
     }

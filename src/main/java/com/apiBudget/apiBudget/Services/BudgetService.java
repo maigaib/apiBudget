@@ -16,7 +16,11 @@ public class BudgetService {
 
 
     public Budget createBudget(Budget budget){
+        Budget bud = budgetRepository.findByCategorie(budget.getCategorie());
+        if(bud!=null)
+            throw new RuntimeException("Il existe déjà un budget de la même categorie.");
         return budgetRepository.save(budget);
+
     }
     public List<Budget> getAllBudget(){
         return budgetRepository.findAll();
@@ -42,5 +46,6 @@ public class BudgetService {
                 }).orElseThrow(() -> new RuntimeException("Budget non trouvé"));
         return budget1;
     }
+
 
 }

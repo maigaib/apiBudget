@@ -8,6 +8,7 @@ import com.apiBudget.apiBudget.Repository.DepenseRepository;
 import com.apiBudget.apiBudget.Repository.TypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -21,23 +22,30 @@ public class DepenseService {
     @Autowired
     private DepenseRepository depenseRepository;
     @Autowired
+
     private AlerteService alerteService;
     @Autowired
+
     private TypeRepository typeRepository;
     @Autowired
     private BudgetRepository budgetRepository;
     public List<Depense> getAllDepensesForSpecificBudget(Long id){
+
         return depenseRepository.findDepensesByBudgetId(id);
     }
 
     public Depense addDepense(Depense depense) {
+
        Budget budget = budgetRepository.findBudgetById(depense.getBudget().getId());
         depense.setBudget(budget);
+
+       //Budget budget1 = budgetRepository.findBudgetById(depense.getBudget().getId());
+
        Type type = typeRepository.findTypeById(depense.getType().getId());
          depense.setType(type);
 
        //pour verifier que le budget existe
-       if((budget==null) || (depense.getBudget().getDateFin().before(new Date())))
+       if((budget==null) || (depense.getBudget().getDateFin().isBefore(LocalDate.now())))
             throw  new RuntimeException("Ce budget n'existe pas");
 
         // pour voir si la depense est superieur à notre budget
@@ -64,7 +72,7 @@ public class DepenseService {
     public Depense updateDepense(Depense depense, Long id) {
         Depense exDepense = depenseRepository.findById(id).orElse(null);
         if (exDepense == null) {
-            return null;
+            throw new RuntimeException("La depense correspondant n'existe pas.");
         }else {
         exDepense.setMontant(depense.getMontant());
         exDepense.setDescription(depense.getDescription());
