@@ -6,6 +6,7 @@ import com.apiBudget.apiBudget.Repository.BudgetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,9 @@ public class BudgetService {
         Budget bud = budgetRepository.findByCategorie(budget.getCategorie());
         if(bud!=null)
             throw new RuntimeException("Il existe déjà un budget de la même categorie.");
+         budget.setDateDebut(budget.getDateDebut()== null ? LocalDate.now() : budget.getDateDebut());
+         budget.setBudgetRestant(budget.getMontantMax());
+         budget.setDateFin(budget.getDateDebut().plusDays(30));
         return budgetRepository.save(budget);
 
     }

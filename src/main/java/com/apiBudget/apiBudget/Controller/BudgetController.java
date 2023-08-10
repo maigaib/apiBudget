@@ -36,7 +36,7 @@ public class BudgetController {
         Optional<List> budget = Optional.ofNullable(budgetService.getAllBudget());
         return Optional.ofNullable(budget.orElse(null));
     }
-    @PostMapping("/create")
+    @PostMapping("/ajouter")
     public Budget create(@RequestBody Budget budget){
         return budgetService.createBudget(budget);
     }

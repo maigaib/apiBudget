@@ -25,12 +25,12 @@ public class UtilisateurController {
         Optional<Utilisateur> user = userService.getUtilisateurById(id);
         return (Utilisateur) user.orElse(null);
     }
-    @PutMapping("/update/{id}")
+    @PutMapping("/modifier/{id}")
     public Optional<Utilisateur> updateUtilisateur(@PathVariable Long id,@RequestBody Utilisateur utilisateur){
         Optional<Utilisateur> user = Optional.ofNullable(userService.editUtilisateur(id, utilisateur));
         return Optional.ofNullable(user.orElse(null)) ;
     }
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/supprimer/{id}")
     public  Boolean test(@PathVariable Long id){
         return userService.deleteUtilisateurById(id);
     }
@@ -39,8 +39,8 @@ public class UtilisateurController {
         Optional<List> user = Optional.ofNullable(userService.getAllUtilisateur());
         return Optional.ofNullable(user.orElse(null));
     }
-    @PostMapping("/create")
-    @Operation(summary = "Permet de créer")
+    @PostMapping("/ajouter")
+    @Operation(summary = "Permet de créer un utilisateur")
     public Utilisateur create(@RequestBody Utilisateur utilisateur){
         return userService.createUtilisateur(utilisateur);
     }
