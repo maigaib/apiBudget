@@ -40,7 +40,7 @@ public class UtilisateurController {
         return Optional.ofNullable(user.orElse(null));
     }
     @PostMapping("/create")
-    @Operation(summary = "Permet de créer")
+    @Operation(summary = "Permet de créer utilisateur")
     public Utilisateur create(@RequestBody Utilisateur utilisateur){
         return userService.createUtilisateur(utilisateur);
     }

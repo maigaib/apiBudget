@@ -19,6 +19,7 @@ public class BudgetService {
         Budget bud = budgetRepository.findByCategorie(budget.getCategorie());
         if(bud!=null)
             throw new RuntimeException("Il existe déjà un budget de la même categorie.");
+        budget.setBudgetRestant(budget.getMontantMax());
         return budgetRepository.save(budget);
 
     }
