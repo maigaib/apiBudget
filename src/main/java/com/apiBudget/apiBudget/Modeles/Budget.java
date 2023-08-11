@@ -26,17 +26,18 @@ public class Budget {
     //=====================declaration de la date de debut===============
 
 
+
     @Column(nullable = false)
-    private LocalDate dateDebut= LocalDate.now();
+    private LocalDate dateDebut;
+
 
     //=====================declaration de la date de fin===============
 
-        private  LocalDate dateFin = dateDebut.plusDays(30);
+    private  LocalDate dateFin ;
 
 
-    @Column(nullable = false)
-    private double budgetRestant = montantMax;
-
+    //@Column(nullable = false)
+    private double budgetRestant ;
 
     // ================Reception de la cle primaire de la categorie=======
     @ManyToOne

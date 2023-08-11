@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class AlerteControlleur {
 
-    private final AlerteService alerteService;
+  /*  private final AlerteService alerteService;
 
     @PostMapping("/alerte")
     public void sendAlerteEmail(@RequestBody Alerte alerte){
@@ -24,4 +24,6 @@ public class AlerteControlleur {
                 alerte.getExpediteur()
         );
     }
+
+   */
 }

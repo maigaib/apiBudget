@@ -1,6 +1,8 @@
 package com.apiBudget.apiBudget.Services;
 
+import com.apiBudget.apiBudget.Modeles.Alerte;
 import com.apiBudget.apiBudget.Modeles.Type;
+import com.apiBudget.apiBudget.Repository.AlerteRepository;
 import com.apiBudget.apiBudget.Repository.TypeRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,8 @@ import java.util.List;
 public class AlerteService {
     @Autowired
     private JavaMailSender mailSender;
+    @Autowired
+    private AlerteRepository alerteRepository;
 
     public void sendEmail(String destinateur, String subject, String message) {
         SimpleMailMessage alt = new SimpleMailMessage();
@@ -23,6 +27,11 @@ public class AlerteService {
         alt.setText(message);
 
         mailSender.send(alt);
+
+    }
+
+    public Alerte addAlerte(Alerte alerte){
+        return alerteRepository.save(alerte);
     }
 
 }
