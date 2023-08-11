@@ -42,7 +42,7 @@ public class DepenseService {
 
        Budget budget = budgetRepository.findBudgetById(depense.getBudget().getId());
         //pour verifier que le budget existe
-        if((budget==null) || (depense.getBudget().getDateFin().isBefore(LocalDate.now())))
+        if((budget==null) || (budget.getDateFin().isBefore(LocalDate.now())))
             throw  new RuntimeException("Ce budget n'existe pas");
         depense.setBudget(budget);
 
@@ -60,7 +60,8 @@ public class DepenseService {
         depense.setDate(LocalDate.now());
         if(depense.getDate().isAfter(LocalDate.now())&& depense.getBudget().getDateFin().isBefore(LocalDate.now()))
             throw new RuntimeException("La date entrée est incorrect");
-
+        if (depense.getMontant() > budget.getBudgetRestant())
+            throw new RuntimeException("Desolé vous avez utilisé la totalité de ce budget");
         //pour deduire notre depense de notre budget
          budget.setBudgetRestant(budget.getBudgetRestant()-depense.getMontant());
 
