@@ -4,31 +4,33 @@ import com.apiBudget.apiBudget.Modeles.Type;
 import com.apiBudget.apiBudget.Services.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-@RequestMapping("Type")
+
+@RequestMapping("type")
 @RestController
 public class TypeController {
 
     @Autowired
     TypeService typeService;
 
-    @PostMapping("/{budgetId}/ajouter")
-    public Type addType(@RequestBody Type type, @PathVariable Long budgetId ){
-        return type.addType(type, budgetId);
+    @PostMapping("/ajouter")
+    public Type addType(@RequestBody Type type , @PathVariable Long depenseId){
+        return typeService.creer(type);
     }
-    @GetMapping("/budget/{budgetId}")
-    public List<Type> getAllTypeForSpecificBudget(@PathVariable Long budgetId){
-        return typeService.getAllTypeForSpecificBudget(budgetId);
+    @GetMapping("/lire")
+    public List<Type> getAllTypeForSpecificBudget(@RequestBody Type type, @PathVariable Long depenseId){
+        return typeService.Lire();
     }
 
     @PutMapping("/modifier/{depenseId}")
     public Type updateType(@RequestBody Type type, @PathVariable Long depenseId){
-        return typeService.getType(depenseId, type);
+        return typeService.getType(type,depenseId);
     }
     //=====================================S
-    @DeleteMapping("/delete/{depenseId}")
-    public boolean deleteTypeById(@PathVariable Long depenseId){
-        return typeService.deleteTypeById(depenseId);
-    }
+    @DeleteMapping("/delete")
+    public String deleteTypeById(@PathVariable Long depenseId){
+
+        return typeService.supprimer(depenseId);
+}
+
 }

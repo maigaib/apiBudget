@@ -35,11 +35,9 @@ public class Utilisateur {
 //==========Envoie de la cle primaire dans la table Alerte=========
     @OneToMany(mappedBy = "utilisateur")
     private List<Categorie> categories;
-   /* @OneToMany(mappedBy = "utilisateur",cascade = CascadeType.ALL)
-    private List<Quiz> quiz;*/
+   //  ================Evoie de la cle primaire dans type========
+    @OneToMany(mappedBy = "utilisateur")
+    private List<Type> types;
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
 }

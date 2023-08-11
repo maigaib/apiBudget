@@ -1,5 +1,6 @@
 package com.apiBudget.apiBudget.Modeles;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.boot.model.internal.BinderHelper;
@@ -21,14 +22,11 @@ public class Type {
     private String nom;
     // =========== la cle etrangere Utilisateur ===========
     @ManyToOne
+    @JsonIgnoreProperties(value = {"types","alertes","categories"})
     private Utilisateur utilisateur;
     //============Envoi de la cle etrangere dans depense========
     @OneToMany (mappedBy = "type",cascade = CascadeType.ALL)
-    private List<Depense> depenses= new ArrayList<>();
-
-    public Type addType(Type type, Long budgetId) {
-        return type;
-    }
+    private List<Depense> depenses;
 
     //
 }

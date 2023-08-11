@@ -1,16 +1,24 @@
 package com.apiBudget.apiBudget.Modeles;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.Entity;
+
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NonNull;
+import lombok.*;
+import org.hibernate.engine.internal.Cascade;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 import static jakarta.persistence.CascadeType.MERGE;
 
-@Data
+
 @Entity
 @Table(name = "depense")
+@Getter
+@Setter
+
 public class Depense {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,16 +30,17 @@ public class Depense {
     @NonNull
     private Integer montant ;
 
-    private LocalDate date = LocalDate.now();
+    private LocalDate date;
 
 
-    @ManyToOne (cascade = {CascadeType.PERSIST, MERGE})
+    @ManyToOne
+    @JsonIgnoreProperties(value = {"depenses"})
     private Type type;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, MERGE })
+    //=========Reception de la cle primaire du budget=======
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = {"depenses","alertes"})
     private Budget budget;
 
-    public Depense() {
-
-    }
 }

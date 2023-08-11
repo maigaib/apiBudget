@@ -2,32 +2,57 @@ package com.apiBudget.apiBudget.Services;
 
 import com.apiBudget.apiBudget.Modeles.Budget;
 import com.apiBudget.apiBudget.Modeles.Depense;
+import com.apiBudget.apiBudget.Modeles.Type;
 import com.apiBudget.apiBudget.Repository.BudgetRepository;
 import com.apiBudget.apiBudget.Repository.DepenseRepository;
+import com.apiBudget.apiBudget.Repository.TypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Service
 public class DepenseService {
     @Autowired
     private DepenseRepository depenseRepository;
-
+    @Autowired
+    private AlerteService alerteService;
+    @Autowired
+    private TypeRepository typeRepository;
     @Autowired
     private BudgetRepository budgetRepository;
-    public List<Depense> getAllDepensesForSpecificBudget(Long budgetId){
-        return depenseRepository.findDepenseByBudgetId(budgetId);
+    public List<Depense> getAllDepensesForSpecificBudget(Long id){
+        return depenseRepository.findDepensesByBudgetId(id);
     }
 
-    public Depense addDepense(Depense depense, Long id) {
-        //=========Obtenir de budget a traver son  id===============
-        Optional<Budget> budget = budgetRepository.findById(id);
-        //========verifier si le budget est dans le basse=======
-            depense.setBudget(budget.get());
+    public Depense addDepense(Depense depense) {
+       Budget budget = budgetRepository.findBudgetById(depense.getBudget().getId());
+       Type type = typeRepository.findTypeById(depense.getType().getId());
+       depense.setBudget(budget);
 
-            return depenseRepository.save(depense);
+       //pour verifier que le budget existe
+       if(budget==null)
+            throw  new RuntimeException("Ce budget n'existe pas");
+
+        // pour voir si la depense est superieur à notre budget
+        if (depense.getMontant() > depense.getBudget().getMontantMax())
+            throw new RuntimeException("Le montant de la depense est superieur a votre budget");
+
+        //pour deduire notre depense de notre budget
+        Double budgetMontantRestant = budget.getBudgetRestant()-depense.getMontant();
+        budget.setBudgetRestant(budgetMontantRestant);
+
+        // pour l'alerte
+        if (budgetMontantRestant <= budget.getMontantAlert())
+            alerteService.sendEmail(type.getUtilisateur().getEmail(),"Doucoure", "vous avez atteint votre montant d'alerte  il vous reste "+budgetMontantRestant+"de budget");
+
+            depense.setDate(LocalDate.now());
+        return depenseRepository.save(depense);
+
     }
 
     public Depense updateDepense(Depense depense, Long id) {
@@ -41,8 +66,8 @@ public class DepenseService {
         return depenseRepository.save(exDepense);}
     }
 
-    public boolean deleteDepenseById(Long depenseId){
-        depenseRepository.deleteById(depenseId);
+    public boolean deleteDepenseById(Long id){
+        depenseRepository.deleteById(id);
         return true;
     }
 

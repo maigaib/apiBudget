@@ -24,14 +24,13 @@ import java.util.List;
             return typeRepository.save(type);
         }
 
-        public Type getType(Long id, Type type) {
+        public Type getType(Type type, Long id) {
             return typeRepository.findById(id).orElseThrow(()-> new RuntimeException("Type non trouvé !"));
         }
 
 
        public Type modifier(Long id,Type type){
-            return typeRepository.findById(id)
-                    .map(m-> {
+            return typeRepository.findById(id).map(m-> {
                         m.setNom(type.getNom());
                         return typeRepository.save(m);
                     }).orElseThrow();
@@ -40,14 +39,6 @@ import java.util.List;
         public String supprimer(Long id) {
             typeRepository.deleteById(id);
             return "Type supprimer avec succès !";
-        }
-
-        public List<Type> getAllTypeForSpecificBudget(Long budgetId) {
-            return null;
-        }
-
-        public boolean deleteTypeById(Long depenseId) {
-            return false;
         }
     }
 

@@ -16,7 +16,6 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Alerte {
-
     //==================Cle primaire Alerte==========
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +28,9 @@ public class Alerte {
     //==================Vue d'alerte par l'utilisateur==========
     @Column(nullable = false)
     private boolean vue;
+    //=========Reception de la cle primaire du budget=======
+    @ManyToOne
+    private Budget budget;
 
     //=========Reception de la cle primaire de l'utilisateur=======
     @ManyToOne
@@ -46,5 +48,4 @@ public class Alerte {
     //==================Message d'alerte==========
     @Column(nullable = false)
     private String message;
-
 }
