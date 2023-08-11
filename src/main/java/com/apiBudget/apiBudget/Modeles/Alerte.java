@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -23,11 +24,11 @@ public class Alerte {
 
     //==================Date alerte==========
     @Column(nullable = false)
-    private Date date;
+    private LocalDate date;
 
     //==================Vue d'alerte par l'utilisateur==========
-    @Column(nullable = false)
-    private boolean vue;
+    //@Column(nullable = false)
+    //private boolean vue;
     //=========Reception de la cle primaire du budget=======
     @ManyToOne
     private Budget budget;
@@ -38,8 +39,8 @@ public class Alerte {
 
     //===================Adresse de l'expediteur====================
 
-    @Column(nullable = false)
-    private String Expediteur;
+    //@Column(nullable = false)
+    //private String Expediteur;
     //===================Adresse du destinateur======================
 
     @Column(nullable = false)

@@ -1,8 +1,10 @@
 package com.apiBudget.apiBudget.Services;
 
+import com.apiBudget.apiBudget.Modeles.Alerte;
 import com.apiBudget.apiBudget.Modeles.Budget;
 import com.apiBudget.apiBudget.Modeles.Depense;
 import com.apiBudget.apiBudget.Modeles.Type;
+import com.apiBudget.apiBudget.Repository.AlerteRepository;
 import com.apiBudget.apiBudget.Repository.BudgetRepository;
 import com.apiBudget.apiBudget.Repository.DepenseRepository;
 import com.apiBudget.apiBudget.Repository.TypeRepository;
@@ -29,6 +31,8 @@ public class DepenseService {
     private TypeRepository typeRepository;
     @Autowired
     private BudgetRepository budgetRepository;
+    @Autowired
+    private AlerteRepository alerteRepository;
     public List<Depense> getAllDepensesForSpecificBudget(Long id){
 
         return depenseRepository.findDepensesByBudgetId(id);
@@ -37,16 +41,16 @@ public class DepenseService {
     public Depense addDepense(Depense depense) {
 
        Budget budget = budgetRepository.findBudgetById(depense.getBudget().getId());
+        //pour verifier que le budget existe
+        if((budget==null) || (depense.getBudget().getDateFin().isBefore(LocalDate.now())))
+            throw  new RuntimeException("Ce budget n'existe pas");
         depense.setBudget(budget);
 
        //Budget budget1 = budgetRepository.findBudgetById(depense.getBudget().getId());
-
        Type type = typeRepository.findTypeById(depense.getType().getId());
+       if (type==null)
+           throw new RuntimeException("Ce type n'exite pas");
          depense.setType(type);
-
-       //pour verifier que le budget existe
-       if((budget==null) || (depense.getBudget().getDateFin().isBefore(LocalDate.now())))
-            throw  new RuntimeException("Ce budget n'existe pas");
 
         // pour voir si la depense est superieur à notre budget
         if (depense.getMontant() > depense.getBudget().getMontantMax())
@@ -54,16 +58,23 @@ public class DepenseService {
 
         //validation de la date
         depense.setDate(LocalDate.now());
-        if(depense.getDate().isAfter(LocalDate.now()))
+        if(depense.getDate().isAfter(LocalDate.now())&& depense.getBudget().getDateFin().isBefore(LocalDate.now()))
             throw new RuntimeException("La date entrée est incorrect");
 
         //pour deduire notre depense de notre budget
-        Double budgetMontantRestant = budget.getBudgetRestant()-depense.getMontant();
-        budget.setBudgetRestant(budgetMontantRestant);
+         budget.setBudgetRestant(budget.getBudgetRestant()-depense.getMontant());
 
         // pour l'alerte
-        if (budgetMontantRestant <= budget.getMontantAlert())
-            alerteService.sendEmail(type.getUtilisateur().getEmail(),"Alerte !!!", "vous avez atteint votre montant d'alerte  il vous reste "+budgetMontantRestant+" F CFA de budget");
+        if (budget.getBudgetRestant() <= budget.getMontantAlert()) {
+            alerteService.sendEmail(type.getUtilisateur().getEmail(), "Alerte !!!", "vous avez atteint votre montant d'alerte  il vous reste " + budget.getBudgetRestant() + " F CFA de budget");
+            Alerte alerte = new Alerte();
+            alerte.setDestinateur(type.getUtilisateur().getEmail());
+            alerte.setMessage("vous avez atteint votre montant d'alerte  il vous reste " + budget.getBudgetRestant() + " F CFA de budget");
+            alerte.setDate(LocalDate.now());
+            alerte.setUtilisateur(type.getUtilisateur());
+            alerte.setBudget(depense.getBudget());
+            alerteService.addAlerte(alerte);
+        }
 
         return depenseRepository.save(depense);
 
