@@ -45,51 +45,45 @@ public class DepenseService {
 
         Budget budget = budgetRepository.findBudgetById(depense.getBudget().getId());
 
-        //pour verifier que le budget existe
-        if((budget==null) || (depense.getBudget().getDateFin().isBefore(LocalDate.now())))
-            throw  new RuntimeException("Ce budget n'existe pas");
+        //================pour verifier que le budget existe==============
+        if((budget==null)) {
+            throw new RuntimeException("Ce budget n'existe pas");
+        }
+        //===============Verification de la validité du budget===============
+        if( (depense.getBudget().getDateFin().isBefore(LocalDate.now()))){
+            throw new RuntimeException("Ce budget est expiré.");
+        }
+        //======================Lier la depense au budget ===========================
         depense.setBudget(budget);
+
+        //=================Obtenir le type a travers son id ================
+
        Type type = typeRepository.findTypeById(depense.getType().getId());
        if (type==null)
            throw new RuntimeException("Ce type n'exite pas");
          depense.setType(type);
 
+         // ======Verifier si la depense est superieur au montant de notre budget======
 
-        //=======Verifie si le budget existe dans la base ou si la date n'est pas depassée===========
-
-        if((budget==null) || (depense.getBudget().getDateFin().isBefore(LocalDate.now())))
-            throw  new RuntimeException("Ce budget n'existe pas ou est expiré.");
-
-       //======================Lier la depense au budget ===========================
-
-        depense.setBudget(budget);
-
-        // ======Verifier si la depense est superieur au montant de notre budget======
-
-        // pour voir si la depense est superieur à notre budget
-
-        if (depense.getMontant() > depense.getBudget().getMontantMax())
+        if (depense.getMontant() > depense.getBudget().getMontantMax()) {
             throw new RuntimeException("Le montant de la depense est superieur a votre budget");
-
+        }
         //===============Validation de la date de la depense================
         depense.setDate(LocalDate.now());
-        if(depense.getDate().isAfter(LocalDate.now())&& depense.getBudget().getDateFin().isBefore(LocalDate.now()))
+        if(depense.getDate().isAfter(LocalDate.now())&& depense.getBudget().getDateFin().isBefore(LocalDate.now())) {
             throw new RuntimeException("La date entrée est incorrect");
-
+        }
 
         //============pour deduire notre depense de notre budget=============
         budget.setBudgetRestant(budget.getBudgetRestant()-depense.getMontant());
 
+        //=========================Gestion de l'alerte=======================
 
-        //pour deduire notre depense de notre budget
-         budget.setBudgetRestant(budget.getBudgetRestant()-depense.getMontant());
-
-        // pour l'alerte
         if (budget.getBudgetRestant() <= budget.getMontantAlert()) {
             alerteService.sendEmail(type.getUtilisateur().getEmail(), "Alerte !!!", "vous avez atteint votre montant d'alerte  il vous reste " + budget.getBudgetRestant() + " F CFA de budget");
             Alerte alerte = new Alerte();
             alerte.setDestinateur(type.getUtilisateur().getEmail());
-            alerte.setMessage("vous avez atteint votre montant d'alerte  il vous reste " + budget.getBudgetRestant() + " F CFA de budget");
+            alerte.setMessage("Vous avez atteint votre montant d'alerte  il vous reste " + budget.getBudgetRestant() + " F CFA de budget");
             alerte.setDate(LocalDate.now());
             alerte.setUtilisateur(type.getUtilisateur());
             alerte.setBudget(depense.getBudget());
@@ -111,9 +105,19 @@ public class DepenseService {
         return depenseRepository.save(exDepense);}
     }
 
-    public boolean deleteDepenseById(Long id){
+    public String deleteDepenseById(Long id){
+        //====================Retrouver la depense=================
+
+        Depense depense = depenseRepository.findDepenseById(id);
+        //============Retrouver le budget correspondant à la depense=======
+
+        Budget budget = depense.getBudget();
+        //===Recuper le montant de la depense et le rajouter au montant restant du budget====
+
+        budget.setBudgetRestant(budget.getBudgetRestant()+depense.getMontant());
+        budgetRepository.save(budget);
         depenseRepository.deleteById(id);
-        return true;
+        return "Depense annulée";
     }
 
 

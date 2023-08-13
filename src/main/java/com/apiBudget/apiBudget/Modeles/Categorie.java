@@ -23,7 +23,7 @@ public class Categorie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    //==================Libelle categorie==========
+    //==================Libelle categorie============
     @Column(length = 100, nullable = false,unique = true)
     private String libelle;
 

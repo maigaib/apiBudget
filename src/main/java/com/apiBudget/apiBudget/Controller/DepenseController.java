@@ -65,7 +65,7 @@ public class DepenseController {
 
     @DeleteMapping("/delete/{id}")
     @Operation(summary = "Permet de supprimer une depense")
-    public boolean deleteDepenseById(@PathVariable Long id){
+    public String deleteDepenseById(@PathVariable Long id){
         return depenseService.deleteDepenseById(id);
     }
 
